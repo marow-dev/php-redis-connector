@@ -31,6 +31,10 @@ class Client {
         return $this->send(new CommandBuilder('exists', $key));
     }
 
+    public function del($key) {
+        return $this->send(new CommandBuilder('del', $key));
+    }
+
     public function set($key, $value) {
         return $this->send(new CommandBuilder('set', array($key, $value)));
     }

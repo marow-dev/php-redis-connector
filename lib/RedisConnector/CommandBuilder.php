@@ -3,7 +3,7 @@
 namespace RedisConnector;
 
 class CommandBuilder {
-    public function __construct($command, $arguments) {
+    public function __construct($command, $arguments = array()) {
         $this->command = $command;
         $this->arguments = (array)$arguments;
     }

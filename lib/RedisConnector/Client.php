@@ -22,7 +22,7 @@ class Client {
         return $this->send(new CommandBuilder('get', $key));
     }
 
-    public function hashset($key, $hash, $value) {
+    public function hset($key, $hash, $value) {
         $this->connection->connect();
         return $this->send(new CommandBuilder('hset', array($key, $hash, $value)));
     }
@@ -35,23 +35,31 @@ class Client {
         return $this->send(new CommandBuilder('set', array($key, $value)));
     }
 
-    public function listRPush($key, $value) {
+    public function append($key, $value) {
+        return $this->send(new CommandBuilder('append', array($key, $value)));
+    }
+
+    public function rpush($key, $value) {
         return $this->send(new CommandBuilder('rpush', array($key, $value)));
     }
 
-    public function listLPush($key, $value) {
+    public function lpush($key, $value) {
         return $this->send(new CommandBuilder('lpush', array($key, $value)));
     }
 
-    public function listRange($key, $from, $to) {
+    public function range($key, $from, $to) {
         return $this->send(new CommandBuilder('lrange', array($key, $from, $to)));
     }
 
-    public function listRPop($key) {
+    public function rpop($key) {
         return $this->send(new CommandBuilder('rpop', array($key)));
     }
 
-    public function listLPop($key) {
+    public function lpop($key) {
         return $this->send(new CommandBuilder('lpop', array($key)));
+    }
+
+    public function flushall() {
+        return $this->send(new CommandBuilder('flushall'));
     }
 }

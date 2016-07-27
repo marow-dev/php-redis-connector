@@ -66,4 +66,16 @@ class Client {
     public function flushall() {
         return $this->send(new CommandBuilder('flushall'));
     }
+
+    public function ttl($key) {
+        return $this->send(new CommandBuilder('ttl', array($key)));
+    }
+
+    public function expire($key, $timeout) {
+        return $this->send(new CommandBuilder('expire', array($key, $timeout)));
+    }
+
+    public function expireat($key, $miliseconds) {
+        return $this->send(new CommandBuilder('expireat', array($key, $miliseconds)));
+    }
 }

@@ -26,6 +26,20 @@ class ErrorsTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals(false, self::$redis->exists($key));
     }
 
+    public function testTtl() {
+        $key = 'test key';
+        $value = 'test value';
+        self::$redis->flushall();
+        self::$redis->set($key, $value);
+        $this->assertEquals(-1, self::$redis->ttl($key));
+        $res = self::$redis->expire($key, 10);
+        $this->assertEquals(1, $res);
+        $this->assertEquals(10, self::$redis->ttl($key));
+        $res = self::$redis->expireat($key, time() + 24 * 60 * 60);
+        $this->assertEquals(24 * 60 * 60, self::$redis->ttl($key));
+        $this->assertEquals(1, $res);
+    }
+
     public function testLPush() {
         self::$redis->flushall();
         self::$redis->lpush('example_list', 'Lorem ipsum dolor sit amet.');

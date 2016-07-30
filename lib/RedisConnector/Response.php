@@ -22,6 +22,9 @@ class Response {
             case '*':
                 $method = 'readArray';
                 break;
+            case '-':
+                $method = 'readError';
+                break;
             default:
                 throw new Exception("No response method for {$response}");
         }
@@ -73,5 +76,10 @@ class Response {
             }
             return $respArray;
         }
+    }
+
+    protected function readError($response) {
+        $response = substr($response, 1);
+        throw new Exception($response);
     }
 }

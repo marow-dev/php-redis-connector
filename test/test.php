@@ -26,6 +26,11 @@ class ErrorsTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals(false, self::$redis->exists($key));
     }
 
+    public function testClients() {
+        $res = self::$redis->invoke('client list');
+        var_dump($res);
+    }
+
     public function testTtl() {
         $key = 'test key';
         $value = 'test value';
@@ -38,6 +43,16 @@ class ErrorsTest extends PHPUnit_Framework_TestCase {
         $res = self::$redis->expireat($key, time() + 24 * 60 * 60);
         $this->assertEquals(24 * 60 * 60, self::$redis->ttl($key));
         $this->assertEquals(1, $res);
+    }
+
+    public function testInvokeFunction() {
+        $keys = ['test1' => 'value1', 'test2' => 'value2', 'test3' => 'value3'];
+        self::$redis->flushall();
+        foreach ($keys as $k => $v) {
+            self::$redis->set($k, $v);
+        }
+        $keys = self::$redis->keys('test?');
+        $this->assertEquals(['test3', 'test2', 'test1'], $keys);
     }
 
     public function testLPush() {

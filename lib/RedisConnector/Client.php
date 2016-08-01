@@ -79,10 +79,6 @@ class Client {
         return $this->send(new CommandBuilder('expireat', array($key, $miliseconds)));
     }
 
-    public function invoke($func, $arguments = array()) {
-        return $this->__call($func, $arguments);
-    }
-
     public function __call($func, $arguments) {
         $command = new CommandBuilder($func, $arguments);
         if ($command) {

@@ -13,9 +13,9 @@ class ErrorsTest extends PHPUnit_Framework_TestCase {
     }
 
     public function testConfig() {
-        $setResult = self::$redis->invoke('config', array('set', 'slowlog-max-len', '256'));
+        $setResult = self::$redis->config('set', 'slowlog-max-len', '256');
         $this->assertEquals('OK', $setResult);
-        $slowlog = self::$redis->invoke('config', array('get', 'slowlog-max-len'));
+        $slowlog = self::$redis->config('get', 'slowlog-max-len');
         $this->assertEquals(['slowlog-max-len', 256], $slowlog);
     }
 }

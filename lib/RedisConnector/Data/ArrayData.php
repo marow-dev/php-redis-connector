@@ -9,6 +9,7 @@ class ArrayData extends Base {
             throw new Exception('Not an array');
         }
     }
+
     public static function create($key, $data) {
         try {
             $array = new self($key, $value);

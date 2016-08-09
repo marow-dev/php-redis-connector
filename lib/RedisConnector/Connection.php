@@ -3,35 +3,77 @@
 namespace RedisConnector;
 
 class Connection {
-    protected $hostname = 'localhost';
-    protected $port = 6379;
+    protected $hostname;
+    protected $port;
     protected $socket;
 
-    public function __construct($hostname = '', $port = '') {
+    /**
+     * Constructor
+     *
+     * @param string $hostname  Redis server hostname - default = 'localhost'
+     * @param int $port         Redis server port number - default = 6379
+     * @param bool $autoConnect Automatically creates socket connection to redis server
+     */
+    public function __construct($hostname = 'localhost', $port = 6379, $autoConnect = true) {
         if(strlen($hostname)) {
             $this->hostname = $hostname;
         }
         if(strlen($port)) {
             $this->port = $port;
         }
-        $this->connect();
-    }
-
-    public function connect() {
-        $this->socket = fsockopen($this->hostname, $this->port);
-        if(! $this->socket) {
-            throw new Exception();
+        if ($autoConnect === true) {
+            $this->connect();
         }
     }
 
+    /**
+     * Returns true if connection to redis is established
+     *
+     * @return bool
+     */
+    public function isConnected() {
+        return is_resource($this->socket);
+    }
+
+    /**
+     * Creates socket connection to redis
+     *
+     * @throws ConnectorException
+     */
+    public function connect() {
+        $this->socket = fsockopen($this->hostname, $this->port);
+        if ( ! $this->socket) {
+            throw new ConnectorException('Connection cannot be established');
+        }
+    }
+
+    /**
+     * Sends command to redis
+     *
+     * @param string $command
+     * @return int
+     */
     public function send($command) {
+        if ( ! $this->isConnected()) {
+            throw new ConnectorException('Not connected to redis');
+        }
         return fwrite($this->socket, $command);
     }
 
+    /**
+     * Reads data from redis server
+     *
+     * @return string
+     */
     public function read() {
         return fgets($this->socket);
     }
 
+    /**
+     * Get connection socket
+     *
+     * @return resource
+     */
     public function getSocket() {
         return $this->socket;
     }

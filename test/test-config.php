@@ -2,7 +2,7 @@
 require_once __DIR__ . '/../lib/RedisConnector/Client.php';
 require_once __DIR__ . '/../lib/RedisConnector/CommandBuilder.php';
 require_once __DIR__ . '/../lib/RedisConnector/Connection.php';
-require_once __DIR__ . '/../lib/RedisConnector/Exception.php';
+require_once __DIR__ . '/../lib/RedisConnector/ConnectorException.php';
 require_once __DIR__ . '/../lib/RedisConnector/Response.php';
 
 class ErrorsTest extends PHPUnit_Framework_TestCase {

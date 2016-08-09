@@ -4,10 +4,21 @@ namespace RedisConnector;
 class Response {
     protected $connection;
 
+    /**
+     * Constructor
+     *
+     * @param RedisConnector\Connection $connection
+     */
     public function __construct($connection) {
         $this->connection = $connection;
     }
 
+    /**
+     * Returns method name that will parse response
+     *
+     * @param string $response
+     * @return string
+     */
     protected function getResponseMethod($response) {
         switch($response) {
             case '$':
@@ -26,11 +37,16 @@ class Response {
                 $method = 'readError';
                 break;
             default:
-                throw new Exception("No response method for {$response}");
+                throw new ConnectorException("No response method for {$response}");
         }
         return $method;
     }
 
+    /**
+     * Reads response from connection object
+     *
+     * @return mixed
+     */
     public function read() {
         do {
             $response = $this->connection->read();
@@ -43,6 +59,12 @@ class Response {
         return call_user_func(array($this, $method), $response);
     }
 
+    /**
+     * Parses bulk data
+     *
+     * @param string $response
+     * @return string
+     */
     protected function readBulk($response) {
         if ($response == '$-1') {
             return false;
@@ -55,14 +77,32 @@ class Response {
         return $response;
     }
 
+    /**
+     * Parses integer data
+     *
+     * @param string $response
+     * @return int
+     */
     protected function readInteger($response) {
         return (int)substr($response, 1);
     }
 
+    /**
+     * Parses inline data
+     *
+     * @param string $response
+     * @return string
+     */
     protected function readInline($response) {
         return substr($response, 1);
     }
 
+    /**
+     * Parses array data
+     *
+     * @param string $response
+     * @return array
+     */
     protected function readArray($response) {
         $count = substr($response, 1);
         if ($count == '-1') {
@@ -78,8 +118,14 @@ class Response {
         }
     }
 
+    /**
+     * Parses error
+     *
+     * @param string $response
+     * @throws RedisConnector\ConnectorException
+     */
     protected function readError($response) {
         $response = substr($response, 1);
-        throw new Exception($response);
+        throw new ConnectorException($response);
     }
 }

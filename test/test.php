@@ -2,7 +2,7 @@
 require_once __DIR__ . '/../lib/RedisConnector/Client.php';
 require_once __DIR__ . '/../lib/RedisConnector/CommandBuilder.php';
 require_once __DIR__ . '/../lib/RedisConnector/Connection.php';
-require_once __DIR__ . '/../lib/RedisConnector/Exception.php';
+require_once __DIR__ . '/../lib/RedisConnector/ConnectorException.php';
 require_once __DIR__ . '/../lib/RedisConnector/Response.php';
 
 class ErrorsTest extends PHPUnit_Framework_TestCase {
@@ -26,11 +26,6 @@ class ErrorsTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals(false, self::$redis->exists($key));
     }
 
-    public function testClients() {
-        $res = self::$redis->invoke('client list');
-        var_dump($res);
-    }
-
     public function testTtl() {
         $key = 'test key';
         $value = 'test value';
@@ -52,7 +47,7 @@ class ErrorsTest extends PHPUnit_Framework_TestCase {
             self::$redis->set($k, $v);
         }
         $keys = self::$redis->keys('test?');
-        $this->assertEquals(['test3', 'test2', 'test1'], $keys);
+        $this->assertEquals(['test2', 'test1', 'test3'], $keys);
     }
 
     public function testLPush() {

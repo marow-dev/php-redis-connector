@@ -22,4 +22,4 @@ $client = new RedisConnector\Client(new RedisConnector\Connection());
 $client = new RedisConnector\Client(new RedisConnector\Connection());
 $client->set('key', 'value');
 ```
-Most popular commands are methods in RedisConnector\Client class. You can issue other commands by using RedisConnector\Client object (class implements magic method __call).
+Most popular commands are methods in RedisConnector\Client class (get, set, etc.). You can issue other commands by using RedisConnector\Client object (class RedisConnector\Client implements magic method __call).

@@ -7,6 +7,12 @@ $connection = RedisConnector\Connection();
 ```
 If connection cant be established RedisConnector\ConnectorException is thrown.
 
+Default connection parameters are:
+
+hostname: localhost
+
+port: 6379
+
 # Client
 ```
 $client = new RedisConnector\Client(new RedisConnector\Connection());

@@ -34,6 +34,7 @@ Most popular commands are methods in RedisConnector\Client class (get, set, etc.
 - 10100 - No response method
 - 10200 - Data is not an object
 - 10201 - Data is not an array
+- 10202 - Wrong key
 
 # Example
 

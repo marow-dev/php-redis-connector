@@ -37,7 +37,7 @@ class Response {
                 $method = 'readError';
                 break;
             default:
-                throw new ConnectorException("No response method for {$response}");
+                throw new ConnectorException("No response method for {$response}", 10100);
         }
         return $method;
     }
@@ -51,7 +51,7 @@ class Response {
         do {
             $response = $this->connection->read();
             if ($response === false || strlen($response) == 0) {
-                throw new Exception();
+                throw new ConnectorException('Response read error', 10002);
             }
             $response = trim($response);
         } while ($response == '');
@@ -126,6 +126,6 @@ class Response {
      */
     protected function readError($response) {
         $response = substr($response, 1);
-        throw new ConnectorException($response);
+        throw new ConnectorException($response, 10003);
     }
 }

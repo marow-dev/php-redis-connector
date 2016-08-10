@@ -22,7 +22,7 @@ class Client {
     protected function send($command) {
         $commandStr = $command->build();
         if ( ! $this->connection->send($commandStr)) {
-            throw new Exception();
+            throw new ConnectorException('Command send error', 10004);
         }
         $response = new Response($this->connection);
         return $response->read();

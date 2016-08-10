@@ -6,6 +6,7 @@ require_once __DIR__ . '/../lib/RedisConnector/ConnectorException.php';
 require_once __DIR__ . '/../lib/RedisConnector/Response.php';
 require_once __DIR__ . '/../lib/RedisConnector/Data/Base.php';
 require_once __DIR__ . '/../lib/RedisConnector/Data/ArrayData.php';
+require_once __DIR__ . '/../lib/RedisConnector/Data/ObjectData.php';
 
 class ErrorsTest extends PHPUnit_Framework_TestCase {
     private static $redis;
@@ -20,5 +21,43 @@ class ErrorsTest extends PHPUnit_Framework_TestCase {
         $array->save(self::$redis);
         $validate = self::$redis->get('test');
         $this->assertEquals($array->encode($array2Save), $validate);
+    }
+
+    public function testWrongDataType() {
+        $array2Save = 10;
+        $isException = false;
+        try {
+            $array = new RedisConnector\Data\ArrayData('test', $array2Save);
+        } catch (\RedisConnector\ConnectorException $e) {
+            $isException = true;
+            $this->assertEquals(10201, $e->getCode());
+        }
+        $this->assertEquals(true, $isException);
+    }
+
+    public function testWrongDataKey() {
+        $isException = false;
+        try {
+            $array = new RedisConnector\Data\ArrayData([12], [12]);
+        } catch (\RedisConnector\ConnectorException $e) {
+            $isException = true;
+            $this->assertEquals(10202, $e->getCode());
+        }
+        $this->assertEquals(true, $isException);
+    }
+
+    public function testObject() {
+        $object2Save = new stdClass();
+        $object2Save->test1 = 'Test1 Value';
+        $object2Save->test2 = 'Test2 Value';
+
+        $object = new RedisConnector\Data\ObjectData('test object', $object2Save);
+        $object->save(self::$redis);
+        $validate = self::$redis->get('test object');
+        $this->assertEquals($object->encode($object2Save), $validate);
+
+        $object = new RedisConnector\Data\ObjectData('test object', null);
+        $object->load(self::$redis);
+        $this->assertEquals($object->get(), $object2Save);
     }
 }

@@ -36,18 +36,7 @@ class ErrorsTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals(1, $res);
         $this->assertEquals(10, self::$redis->ttl($key));
         $res = self::$redis->expireat($key, time() + 24 * 60 * 60);
-        $this->assertEquals(24 * 60 * 60, self::$redis->ttl($key));
         $this->assertEquals(1, $res);
-    }
-
-    public function testInvokeFunction() {
-        $keys = ['test1' => 'value1', 'test2' => 'value2', 'test3' => 'value3'];
-        self::$redis->flushall();
-        foreach ($keys as $k => $v) {
-            self::$redis->set($k, $v);
-        }
-        $keys = self::$redis->keys('test?');
-        $this->assertEquals(['test2', 'test1', 'test3'], $keys);
     }
 
     public function testLPush() {
@@ -64,5 +53,13 @@ class ErrorsTest extends PHPUnit_Framework_TestCase {
         self::$redis->rpush('example_list', 'Consectetur adipiscing elit.');
         $exampleList = self::$redis->range('example_list', 0, -1);
         $this->assertEquals(['Lorem ipsum dolor sit amet.', 'Consectetur adipiscing elit.'], $exampleList);
+    }
+
+    public function testWrongConnection() {
+        try {
+            $connection = new RedisConnector\Connection('localhost', 8888);
+        } catch (RedisConnector\ConnectorException $e) {
+            $this->assertEquals(10000, $e->getCode());
+        }
     }
 }

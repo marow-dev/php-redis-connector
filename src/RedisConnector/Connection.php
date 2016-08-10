@@ -41,21 +41,22 @@ class Connection {
      * @throws ConnectorException
      */
     public function connect() {
-        $this->socket = fsockopen($this->hostname, $this->port);
+        $this->socket = @fsockopen($this->hostname, $this->port);
         if ( ! $this->socket) {
-            throw new ConnectorException('Connection cannot be established');
+            throw new ConnectorException('Connection cannot be established', 10000);
         }
     }
 
     /**
      * Sends command to redis
      *
+     * @throws ConnectorException
      * @param string $command
      * @return int
      */
     public function send($command) {
         if ( ! $this->isConnected()) {
-            throw new ConnectorException('Not connected to redis');
+            throw new ConnectorException('Not connected to redis', 10001);
         }
         return fwrite($this->socket, $command);
     }

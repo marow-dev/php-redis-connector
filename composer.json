@@ -6,10 +6,9 @@
     "homepage": "https://github.com/marow-dev/php-redis-connector",
     "licence": "MIT",
     "authors": {
-	"name": "Marcin Owczarczyk",
-	"email": "marow.dev@gmail.com",
-	"role": "Developer",
-    },
+    "name": "Marcin Owczarczyk",
+    "email": "marow.dev@gmail.com",
+    "role": "Developer",
     "autoload": {
         "psr-4": {
             "RedisConnector\\": "src/RedisConnector"
@@ -18,4 +17,4 @@
     "require": {
         "php": ">=5.3.0"
     }
-}
+},

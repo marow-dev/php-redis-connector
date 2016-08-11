@@ -107,7 +107,7 @@ class Response {
         $count = substr($response, 1);
         if ($count == '-1') {
             return null;
-        } elseif($count == '0') {
+        } elseif ($count == '0') {
             return array();
         } else {
             $respArray = array();

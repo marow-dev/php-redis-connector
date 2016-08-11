@@ -15,12 +15,8 @@ class Connection {
      * @param bool $autoConnect Automatically creates socket connection to redis server
      */
     public function __construct($hostname = 'localhost', $port = 6379, $autoConnect = true) {
-        if(strlen($hostname)) {
-            $this->hostname = $hostname;
-        }
-        if(strlen($port)) {
-            $this->port = $port;
-        }
+        $this->hostname = $hostname;
+        $this->port = $port;
         if ($autoConnect === true) {
             $this->connect();
         }

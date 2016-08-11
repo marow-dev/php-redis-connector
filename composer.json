@@ -8,7 +8,7 @@
     "authors": {
         "name": "Marcin Owczarczyk",
         "email": "marow.dev@gmail.com",
-        "role": "Developer",
+        "role": "Developer"
     },
     "autoload": {
         "psr-4": {

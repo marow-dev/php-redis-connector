@@ -4,7 +4,7 @@
     "description": "Redis client",
     "keywords": ["redis"],
     "homepage": "https://github.com/marow-dev/php-redis-connector",
-    "licence": "MIT",
+    "license": "MIT",
     "authors": {
         "name": ["Marcin Owczarczyk"],
         "email": ["marow.dev@gmail.com"],

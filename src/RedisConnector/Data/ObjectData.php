@@ -3,11 +3,10 @@ namespace RedisConnector\Data;
 
 class ObjectData extends Base {
     public function __construct($key, $data = null) {
-        if (is_object($data) or is_null($data)) {
-            parent::__construct($key, $data);
-        } else {
+        if ( ! is_object($data) && ! is_null($data)) {
             throw new \RedisConnector\ConnectorException('Data is not an object', 10200);
         }
+        parent::__construct($key, $data);
     }
 
     public function encode($data) {

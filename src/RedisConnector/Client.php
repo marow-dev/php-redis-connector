@@ -142,9 +142,9 @@ class Client {
      * @param array $arguments  Command arguments
      */
     public function __call($command, $arguments) {
-        $c = new CommandBuilder($command, $arguments);
-        if ($c) {
-            return $this->send($c);
+        $comBuilder = new CommandBuilder($command, $arguments);
+        if ($comBuilder) {
+            return $this->send($comBuilder);
         }
     }
 }

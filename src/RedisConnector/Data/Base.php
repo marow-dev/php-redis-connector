@@ -40,7 +40,7 @@ abstract class Base {
         }
     }
 
-    public static function create($key, $data) {
+    public static function create($key, $value) {
         $array = new self($key, $value);
         return $array;
     }

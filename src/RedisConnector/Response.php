@@ -109,13 +109,12 @@ class Response {
             return null;
         } elseif ($count == '0') {
             return array();
-        } else {
-            $respArray = array();
-            for ($i = 0; $i < $count; $i++) {
-                $respArray[] = $this->read();
-            }
-            return $respArray;
         }
+        $respArray = array();
+        for ($i = 0; $i < $count; $i++) {
+            $respArray[] = $this->read();
+        }
+        return $respArray;
     }
 
     /**

@@ -1,8 +1,28 @@
 <?php
-
+/**
+ * Connection file
+ *
+ * PHP version 5
+ *
+ * @category Class
+ * @package  RedisConnector
+ * @author   Marcin Owczarczyk <marow.dev@gmail.com>
+ * @license  MIT https://opensource.org/licenses/MIT
+ * @link     https://github.com/marow-dev/php-redis-connector
+ */
 namespace RedisConnector;
 
-class Connection {
+/**
+ * Connection
+ *
+ * @category Class
+ * @package  RedisConnector
+ * @author   Marcin Owczarczyk <marow.dev@gmail.com>
+ * @license  MIT https://opensource.org/licenses/MIT
+ * @link     https://github.com/marow-dev/php-redis-connector
+ */
+class Connection
+{
     protected $hostname;
     protected $port;
     protected $socket;
@@ -10,11 +30,12 @@ class Connection {
     /**
      * Constructor
      *
-     * @param string $hostname  Redis server hostname - default = 'localhost'
-     * @param int $port         Redis server port number - default = 6379
-     * @param bool $autoConnect Automatically creates socket connection to redis server
+     * @param string $hostname    Redis server hostname - default = 'localhost'
+     * @param int    $port        Redis server port number - default = 6379
+     * @param bool   $autoConnect Automatically creates socket connection to redis server
      */
-    public function __construct($hostname = 'localhost', $port = 6379, $autoConnect = true) {
+    public function __construct($hostname = 'localhost', $port = 6379, $autoConnect = true)
+    {
         $this->hostname = $hostname;
         $this->port = $port;
         if ($autoConnect === true) {
@@ -27,7 +48,8 @@ class Connection {
      *
      * @return bool
      */
-    public function isConnected() {
+    public function isConnected()
+    {
         return is_resource($this->socket);
     }
 
@@ -35,23 +57,30 @@ class Connection {
      * Creates socket connection to redis
      *
      * @throws ConnectorException
+     *
+     * @return boolean
      */
-    public function connect() {
+    public function connect()
+    {
         $this->socket = @fsockopen($this->hostname, $this->port);
-        if ( ! $this->socket) {
+        if (!$this->socket) {
             throw new ConnectorException('Connection cannot be established', 10000);
         }
+        return true;
     }
 
     /**
      * Sends command to redis
      *
+     * @param string $command Command
+     *
      * @throws ConnectorException
-     * @param string $command
+     *
      * @return int
      */
-    public function send($command) {
-        if ( ! $this->isConnected()) {
+    public function send($command)
+    {
+        if (!$this->isConnected()) {
             throw new ConnectorException('Not connected to redis', 10001);
         }
         return fwrite($this->socket, $command);
@@ -62,7 +91,8 @@ class Connection {
      *
      * @return string
      */
-    public function read() {
+    public function read()
+    {
         return fgets($this->socket);
     }
 
@@ -71,7 +101,8 @@ class Connection {
      *
      * @return resource
      */
-    public function getSocket() {
+    public function getSocket()
+    {
         return $this->socket;
     }
 }

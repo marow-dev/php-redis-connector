@@ -1,9 +1,9 @@
 <?php
-require_once __DIR__ . '/../lib/RedisConnector/Client.php';
-require_once __DIR__ . '/../lib/RedisConnector/CommandBuilder.php';
-require_once __DIR__ . '/../lib/RedisConnector/Connection.php';
-require_once __DIR__ . '/../lib/RedisConnector/ConnectorException.php';
-require_once __DIR__ . '/../lib/RedisConnector/Response.php';
+require_once __DIR__ . '/../src/RedisConnector/Client.php';
+require_once __DIR__ . '/../src/RedisConnector/CommandBuilder.php';
+require_once __DIR__ . '/../src/RedisConnector/Connection.php';
+require_once __DIR__ . '/../src/RedisConnector/ConnectorException.php';
+require_once __DIR__ . '/../src/RedisConnector/Response.php';
 
 class ErrorsTest extends PHPUnit_Framework_TestCase {
     private static $redis;
